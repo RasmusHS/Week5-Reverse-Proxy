@@ -1,4 +1,5 @@
 using Serilog;
+using Week5_Reverse_Proxy.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,8 @@ builder.Host.UseSerilog((context, services, configuration) =>
 });
 
 var app = builder.Build();
+
+app.UseMiddleware<RequestLoggingMiddleware>();
 
 app.MapReverseProxy();
 
