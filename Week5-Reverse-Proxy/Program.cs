@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.Authentication;
 using Serilog;
+using Week5_Reverse_Proxy.Auth;
 using Week5_Reverse_Proxy.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,9 +18,26 @@ builder.Host.UseSerilog((context, services, configuration) =>
                  .WriteTo.File("logs/log-.txt", rollingInterval: RollingInterval.Day);
 });
 
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.AddServerHeader = false;
+});
+
+builder.Services.AddAuthentication("BasicAuth")
+    .AddScheme<AuthenticationSchemeOptions, BasicAuthHandler>("BasicAuth", null);
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminPolicy", policy =>
+        policy.RequireAuthenticatedUser());
+});
+
 var app = builder.Build();
 
 app.UseMiddleware<RequestLoggingMiddleware>();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapReverseProxy();
 

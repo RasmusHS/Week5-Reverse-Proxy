@@ -1,25 +1,25 @@
 services:
   reverse_proxy:
       ports:
-        - "5222:80"
-        #- "7227:443"
+        - "5222:8080"
+        #- "7227:8081"
       image: ${DOCKER_REGISTRY-}week5reverseproxy
       build:
         context: .
         dockerfile: ./Week5-Reverse-Proxy/Dockerfile
       environment: 
-        - ASPNETCORE_ENVIRONMENT=Development
-        - ASPNETCORE_URL=http://localhost
-        - ASPNETCORE_HTTP_PORT=5222
+        - ASPNETCORE_ENVIRONMENT=Docker
+        #- ASPNETCORE_URL=http://localhost
+        #- ASPNETCORE_HTTP_PORT=5222
   test.api:
       ports:
-        - "5081:80"
-        #- "7289:443"
+        - "5081:8080"
+        #- "7289:8081"
       image: ${DOCKER_REGISTRY-}testapi
       build:
         context: .
         dockerfile: ./TestApi/Dockerfile
       environment:
-        - ASPNETCORE_ENVIRONMENT=Development
-        - ASPNETCORE_URL=http://localhost
-        - ASPNETCORE_HTTP_PORT=5081
+        - ASPNETCORE_ENVIRONMENT=Docker
+        #- ASPNETCORE_URL=http://localhost
+        #- ASPNETCORE_HTTP_PORT=5081
