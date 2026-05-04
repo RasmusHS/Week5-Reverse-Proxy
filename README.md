@@ -22,7 +22,7 @@ Week5-Reverse-Proxy/
 ├── appsettings.Docker.json          # Docker-specific cluster address overrides
 ├── Middleware/
 │   └── RequestLoggingMiddleware.cs
-├── Authentication/
+├── Auth/
 │   └── BasicAuthHandler.cs
 ├── Dockerfile
 └── Week5-Reverse-Proxy.csproj
@@ -40,8 +40,9 @@ docker-compose.yml
 | Path | Backend | Auth |
 |------|---------|------|
 | `/api/{**remainder}` | httpbin.org | None |
+| `/admin/{**remainder}` | httpbin.org | Basic |
 | `/web/{**remainder}` | TestApi | None |
-| `/admin/{**remainder}` | TestApi | Basic |
+
  
 ## Running Locally
  
